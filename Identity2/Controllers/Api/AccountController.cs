@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -45,6 +46,24 @@ namespace Identity2.Controllers.Api
 			});
 		}
 
+		[Route("ChangePassword")]
+		public async Task<IHttpActionResult> ChangePassword(ChangePasswordModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+
+			if (!result.Succeeded)
+			{
+				return GetErrorResult(result);
+			}
+
+			return Ok();
+		}
+
 		private IAuthenticationManager Authentication
 		{
 			get
@@ -63,6 +82,31 @@ namespace Identity2.Controllers.Api
 			{
 				_userManager = value;
 			}
+		}
+
+		private IHttpActionResult GetErrorResult(IdentityResult result)
+		{
+			if (result == null)
+			{
+				return InternalServerError();
+			}
+
+			if (!result.Succeeded && result.Errors != null)
+			{
+				foreach (var error in result.Errors)
+				{
+					ModelState.AddModelError("", error);
+				}
+
+				if (ModelState.IsValid)
+				{
+					return BadRequest();
+				}
+
+				return BadRequest(ModelState);
+			}
+
+			return null;
 		}
 	}
 }
