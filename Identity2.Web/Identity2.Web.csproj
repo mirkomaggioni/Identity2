@@ -124,7 +124,7 @@
     <Content Include="app\main\authentication\login.html" />
     <Content Include="app\main\header.html" />
     <Content Include="app\main\main.html" />
-    <Content Include="app\main\main.js" />
+    <Content Include="app\main\mainModule.js" />
     <Content Include="index.html" />
     <Content Include="package.json" />
     <None Include="packages.config" />

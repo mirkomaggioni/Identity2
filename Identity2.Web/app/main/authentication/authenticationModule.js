@@ -2,8 +2,8 @@
   'use-strict';
   angular.module('authenticationModule', ['ui.router'])
     .config(function ($stateProvider) {
-      $stateProvider.state('home.login', {
-        url: '/home/login',
+      $stateProvider.state('main.login', {
+        url: '/main/login',
         templateUrl: 'app/main/authentication/login.html',
         controller: 'loginCtrl'
       });
