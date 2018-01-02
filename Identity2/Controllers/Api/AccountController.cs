@@ -82,6 +82,27 @@ namespace Identity2.Controllers.Api
 			return Ok();
 		}
 
+		[AllowAnonymous]
+		[Route("Register")]
+		public async Task<IHttpActionResult> Register(RegisterModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var user = new ApplicationUser() { Username = model.Username, Email = model.Email };
+
+			IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+			if (!result.Succeeded)
+			{
+				return GetErrorResult(result);
+			}
+
+			return Ok();
+		}
+
 		private IAuthenticationManager Authentication
 		{
 			get
