@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "@uirouter/angularjs": "^1.0.12",
+    "angular": "^1.6.8",
+    "bootstrap": "^3.3.7"
+  }
+}
