@@ -103,6 +103,17 @@ namespace Identity2.Controllers.Api
 			return Ok();
 		}
 
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && _userManager != null)
+			{
+				_userManager.Dispose();
+				_userManager = null;
+			}
+
+			base.Dispose(disposing);
+		}
+
 		private IAuthenticationManager Authentication
 		{
 			get
