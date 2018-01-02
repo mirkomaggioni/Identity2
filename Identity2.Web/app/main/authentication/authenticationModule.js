@@ -8,7 +8,20 @@
         controller: 'loginCtrl'
       });
     })
-    .controller('loginCtrl', function () {
-
+    .factory('authenticationFactory', function ($http) {
+      return {
+        login: function(user) {
+          return $http.post('login', user);
+        }
+      }
+    })
+    .controller('loginCtrl', function ($scope, authenticationFactory) {
+      $scope.login = function () {
+        authenticationFactory.login($scope.User).then(function (result) {
+          console.log("logged!");
+        }, function (error) {
+          console.log(error);
+        });
+      };
     });
 })(window, window.angular)

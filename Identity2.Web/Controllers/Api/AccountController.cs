@@ -21,6 +21,24 @@ namespace Identity2.Web.Controllers.Api
 			_applicationUserManager = applicationUserManager;
 		}
 
+		[Route("Login")]
+		public async Task<IHttpActionResult> LoginAsync(LoginModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var result = await UserManager.FindAsync(model.Username, model.Password);
+
+			if (result == null)
+			{
+				return BadRequest("The user name or password is incorrect.");
+			}
+
+			return Ok();
+		}
+
 		[Route("Logout")]
 		public IHttpActionResult Logout()
 		{
