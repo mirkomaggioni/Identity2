@@ -1,12 +1,12 @@
 ﻿using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using Identity2.App_Start;
-using Identity2.Models;
+using Identity2.Web.App_Start;
+using Identity2.Web.Models;
 
-[assembly: OwinStartup(typeof(Identity2.Startup))]
+[assembly: OwinStartup(typeof(Identity2.Web.Startup))]
 
-namespace Identity2
+namespace Identity2.Web
 {
 	public class Startup
 	{

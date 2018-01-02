@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Identity2.Models
+namespace Identity2.Web.Models
 {
 	public class UserInfoModel
 	{

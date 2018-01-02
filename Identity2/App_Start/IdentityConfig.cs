@@ -1,10 +1,10 @@
-﻿using Identity2.Models;
+﻿using Identity2.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 
-namespace Identity2.App_Start
+namespace Identity2.Web.App_Start
 {
 	public class ApplicationUserManager : UserManager<ApplicationUser>
 	{

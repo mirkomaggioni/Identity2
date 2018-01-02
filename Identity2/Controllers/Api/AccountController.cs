@@ -1,15 +1,14 @@
-﻿using Identity2.App_Start;
-using Identity2.Models;
+﻿using Identity2.Web.App_Start;
+using Identity2.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Identity2.Controllers.Api
+namespace Identity2.Web.Controllers.Api
 {
 	[Authorize]
 	public class AccountController : ApiController
