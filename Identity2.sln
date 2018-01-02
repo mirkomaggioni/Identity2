@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity2.Web", "Identity2\Identity2.Web.csproj", "{BC4DF305-BC30-4E0D-89F9-4F1E1EF978DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity2.Web", "Identity2.Web\Identity2.Web.csproj", "{BC4DF305-BC30-4E0D-89F9-4F1E1EF978DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
