@@ -1,7 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using Owin;
+using Identity2.App_Start;
+using Identity2.Models;
 
 [assembly: OwinStartup(typeof(Identity2.Startup))]
 
@@ -11,7 +12,9 @@ namespace Identity2
 	{
 		public void Configuration(IAppBuilder app)
 		{
-			// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
+			app.CreatePerOwinContext(ApplicationDbContext.Create);
+			app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+			app.UseCookieAuthentication(new CookieAuthenticationOptions());
 		}
 	}
 }
