@@ -1,27 +1,20 @@
 ﻿using Identity2.Web.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
 
 namespace Identity2.Web.App_Start
 {
 	public class ApplicationUserManager : UserManager<ApplicationUser>
 	{
-		public ApplicationUserManager(IUserStore<ApplicationUser> store) : base(store)
+		public ApplicationUserManager(IUserStore<ApplicationUser> userStore, IdentityFactoryOptions<ApplicationUserManager> options) : base(userStore)
 		{
-		}
-
-		public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
-		{
-			var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
-			manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+			UserValidator = new UserValidator<ApplicationUser>(this)
 			{
 				AllowOnlyAlphanumericUserNames = false,
 				RequireUniqueEmail = true
 			};
 
-			manager.PasswordValidator = new PasswordValidator
+			PasswordValidator = new PasswordValidator
 			{
 				RequiredLength = 8,
 				RequireNonLetterOrDigit = true,
@@ -33,10 +26,8 @@ namespace Identity2.Web.App_Start
 			var dataProtectionProvider = options.DataProtectionProvider;
 			if (dataProtectionProvider != null)
 			{
-				manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+				UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
 			}
-
-			return manager;
 		}
 	}
 }
