@@ -131,6 +131,7 @@
     <Content Include="app\app.js" />
     <Content Include="app\main\authentication\authenticationModule.js" />
     <Content Include="app\main\authentication\login.html" />
+    <Content Include="app\main\authentication\register.html" />
     <Content Include="app\main\header.html" />
     <Content Include="app\main\main.html" />
     <Content Include="app\main\mainModule.js" />

@@ -29,7 +29,7 @@ namespace Identity2.Web.Controllers.Api
 				return BadRequest(ModelState);
 			}
 
-			var result = await UserManager.FindAsync(model.Username, model.Password);
+			var result = await _applicationUserManager.FindAsync(model.Username, model.Password);
 
 			if (result == null)
 			{
@@ -49,7 +49,7 @@ namespace Identity2.Web.Controllers.Api
 		[Route("UserInfo")]
 		public async Task<IHttpActionResult> GetUserInfoAsync()
 		{
-			var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+			var user = await _applicationUserManager.FindByIdAsync(User.Identity.GetUserId());
 
 			if (user == null)
 			{
@@ -58,7 +58,7 @@ namespace Identity2.Web.Controllers.Api
 
 			return Ok(new UserInfoModel
 			{
-				Username = user.Username,
+				Username = user.UserName,
 				Email = user.Email
 			});
 		}
@@ -71,7 +71,7 @@ namespace Identity2.Web.Controllers.Api
 				return BadRequest(ModelState);
 			}
 
-			var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+			var result = await _applicationUserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
 
 			if (!result.Succeeded)
 			{
@@ -89,7 +89,7 @@ namespace Identity2.Web.Controllers.Api
 				return BadRequest(ModelState);
 			}
 
-			IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+			IdentityResult result = await _applicationUserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
 
 			if (!result.Succeeded)
 			{
@@ -108,9 +108,9 @@ namespace Identity2.Web.Controllers.Api
 				return BadRequest(ModelState);
 			}
 
-			var user = new ApplicationUser() { Username = model.Username, Email = model.Email };
+			var user = new ApplicationUser() { UserName = model.Username, Email = model.Email };
 
-			IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+			IdentityResult result = await _applicationUserManager.CreateAsync(user, model.Password);
 
 			if (!result.Succeeded)
 			{
@@ -136,18 +136,6 @@ namespace Identity2.Web.Controllers.Api
 			get
 			{
 				return Request.GetOwinContext().Authentication;
-			}
-		}
-
-		private ApplicationUserManager UserManager
-		{
-			get
-			{
-				return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			}
-			set
-			{
-				_userManager = value;
 			}
 		}
 
