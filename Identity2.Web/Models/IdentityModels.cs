@@ -5,16 +5,7 @@ using System.Threading.Tasks;
 
 namespace Identity2.Web.Models
 {
-	public class ApplicationUser : IdentityUser
-	{
-		public string Username { get; set; }
-
-		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
-		{
-			var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
-			return userIdentity;
-		}
-	}
+	public class ApplicationUser : IdentityUser {}
 
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 	{
