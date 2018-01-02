@@ -64,6 +64,24 @@ namespace Identity2.Controllers.Api
 			return Ok();
 		}
 
+		[Route("SetPassword")]
+		public async Task<IHttpActionResult> SetPassword(SetPasswordModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+
+			if (!result.Succeeded)
+			{
+				return GetErrorResult(result);
+			}
+
+			return Ok();
+		}
+
 		private IAuthenticationManager Authentication
 		{
 			get
