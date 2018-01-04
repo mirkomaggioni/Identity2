@@ -1,6 +1,6 @@
 ﻿(function (window, angular) {
   'use-strict';
-  angular.module('authenticationModule', ['ui.router'])
+  angular.module('authenticationModule', ['ui.router', 'toastr'])
     .config(function ($stateProvider) {
       $stateProvider.state('main.login', {
         url: '/main/login',
@@ -24,21 +24,21 @@
         }
       }
     })
-    .controller('loginCtrl', function ($scope, authenticationFactory) {
+    .controller('loginCtrl', function ($scope, toastr, authenticationFactory) {
       $scope.login = function () {
         authenticationFactory.login($scope.User).then(function (result) {
-          console.log("logged!");
+          toastr.success('logged!');
         }, function (error) {
-          console.log(error);
+          toastr.error(error);
         });
       };
     })
-    .controller('registerCtrl', function ($scope, authenticationFactory) {
+    .controller('registerCtrl', function ($scope, toastr, authenticationFactory) {
       $scope.register = function () {
         authenticationFactory.register($scope.User).then(function (result) {
-          console.log("registered!");
+          toastr.success('registered!');
         }, function (error) {
-          console.log(error);
+          toastr.error(error.data.Message);
         });
       };
     });
