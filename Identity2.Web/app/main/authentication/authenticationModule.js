@@ -15,7 +15,14 @@
       });
     })
     .factory('authenticationFactory', function ($http) {
+      var _isLogged = false;
       return {
+        isLogged: function (logged) {
+          _isLogged = logged;
+        },
+        isLogged: function () {
+          return _isLogged;
+        },
         login: function(user) {
           return $http.post('login', user);
         },
@@ -27,8 +34,10 @@
     .controller('loginCtrl', function ($scope, toastr, authenticationFactory) {
       $scope.login = function () {
         authenticationFactory.login($scope.User).then(function (result) {
+          authenticationFactory.isLogged(true);
           toastr.success('logged!');
         }, function (error) {
+          authenticationFactory.isLogged(false);
           toastr.error(error);
         });
       };
