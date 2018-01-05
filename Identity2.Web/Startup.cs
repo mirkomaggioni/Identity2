@@ -11,6 +11,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.DataProtection;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security.OAuth;
+using System;
+using Identity2.Web.Providers;
 
 [assembly: OwinStartup(typeof(Identity2.Web.Startup))]
 
@@ -48,6 +51,20 @@ namespace Identity2.Web
 			);
 
 			app.UseWebApi(config);
+		}
+
+		public void ConfigureOAuth(IAppBuilder app)
+		{
+			var options = new OAuthAuthorizationServerOptions()
+			{
+				AllowInsecureHttp = true,
+				TokenEndpointPath = new PathString("/token"),
+				AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
+				Provider = new AuthorizationServerProvider()
+			};
+
+			app.UseOAuthAuthorizationServer(options);
+			app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 		}
 	}
 }

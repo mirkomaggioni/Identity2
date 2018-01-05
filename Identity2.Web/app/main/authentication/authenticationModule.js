@@ -33,10 +33,11 @@
         });
       };
     })
-    .controller('registerCtrl', function ($scope, toastr, authenticationFactory) {
+    .controller('registerCtrl', function ($scope, $state, toastr, authenticationFactory) {
       $scope.register = function () {
         authenticationFactory.register($scope.User).then(function (result) {
           toastr.success('registered!');
+          $state.reload();
         }, function (error) {
           toastr.error(error.data.Message);
         });
