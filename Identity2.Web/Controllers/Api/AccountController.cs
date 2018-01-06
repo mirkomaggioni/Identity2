@@ -1,7 +1,5 @@
-﻿using Identity2.Web.App_Start;
-using Identity2.Web.Models;
+﻿using Identity2.Web.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using System.Net.Http;
@@ -19,24 +17,6 @@ namespace Identity2.Web.Controllers.Api
 		public AccountController(ApplicationUserManager applicationUserManager)
 		{
 			_applicationUserManager = applicationUserManager;
-		}
-
-		[Route("Login")]
-		public async Task<IHttpActionResult> LoginAsync(LoginModel model)
-		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-
-			var result = await _applicationUserManager.FindAsync(model.Username, model.Password);
-
-			if (result == null)
-			{
-				return BadRequest("The user name or password is incorrect.");
-			}
-
-			return Ok();
 		}
 
 		[Route("Logout")]
