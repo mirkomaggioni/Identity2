@@ -1,18 +1,24 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using Identity2.Web.App_Start;
-using Microsoft.AspNet.Identity.Owin;
+using Autofac;
+using Autofac.Integration.Owin;
 using Microsoft.Owin.Security.OAuth;
 
 namespace Identity2.Web.Providers
 {
+	// ReSharper disable once ClassNeverInstantiated.Global
 	public class AuthorizationServerProvider : OAuthAuthorizationServerProvider
 	{
+		public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+		{
+			context.Validated();
+			return Task.CompletedTask;
+		}
+
 		public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
 		{
-			var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
-			var user = await userManager.FindAsync(context.UserName, context.Password);
+			var applicationUserManager = context.OwinContext.GetAutofacLifetimeScope().Resolve<ApplicationUserManager>();
+			var user = await applicationUserManager.FindAsync(context.UserName, context.Password);
 
 			if (user == null)
 			{
@@ -24,7 +30,6 @@ namespace Identity2.Web.Providers
 			identity.AddClaim(new Claim("sub", context.UserName));
 			identity.AddClaim(new Claim("role", "user"));
 			context.Validated(identity);
-			return;
 		}
 	}
 }

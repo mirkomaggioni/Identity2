@@ -2,7 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
-namespace Identity2.Web.App_Start
+namespace Identity2.Web
 {
 	public class ApplicationUserManager : UserManager<ApplicationUser>
 	{
