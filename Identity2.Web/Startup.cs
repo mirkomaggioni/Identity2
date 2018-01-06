@@ -25,7 +25,6 @@ namespace Identity2.Web
 			containerBuilder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
 			containerBuilder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
 			containerBuilder.Register(b => new UserStore<ApplicationUser>(b.Resolve<ApplicationDbContext>())).AsImplementedInterfaces().InstancePerRequest();
-			containerBuilder.RegisterType<AuthorizationServerProvider>().As<IOAuthAuthorizationServerProvider>().PropertiesAutowired().SingleInstance();
 			containerBuilder.Register(b => new IdentityFactoryOptions<ApplicationUserManager>() {
 				DataProtectionProvider = new DpapiDataProtectionProvider("Identity2 Application")
 			}).AsSelf().InstancePerRequest();
@@ -41,13 +40,7 @@ namespace Identity2.Web
 			};
 
 			config.MapHttpAttributeRoutes();
-
-			config.Routes.MapHttpRoute(
-				name: "DefaultApi",
-				routeTemplate: "api/{controller}/{id}",
-				defaults: new { id = RouteParameter.Optional }
-			);
-
+			config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
 			app.UseAutofacWebApi(config);
 
 			var options = new OAuthAuthorizationServerOptions()
@@ -55,7 +48,7 @@ namespace Identity2.Web
 				AllowInsecureHttp = true,
 				TokenEndpointPath = new PathString("/token"),
 				AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
-				Provider = container.Resolve<IOAuthAuthorizationServerProvider>()
+				Provider = new AuthorizationServerProvider()
 			};
 
 			app.UseOAuthAuthorizationServer(options);
